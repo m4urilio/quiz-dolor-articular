@@ -1,7 +1,15 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import './App.css'
 
-const REDIRECT_URL = 'https://pay.hotmart.com/X106313372V?checkoutMode=10'
+const CHECKOUT_URL = 'https://pay.hotmart.com/X106313372V?checkoutMode=10'
+
+const TSL_URLS = {
+  'Rodilla':          '/tsl/rodilla',
+  'Lumbar o Ciática': '/tsl/lumbar',
+  'Cervical y Cuello':'/tsl/cervical',
+  'Caderas':          '/tsl/caderas',
+  'Otro lugar':       '/tsl/bienestar',
+}
 
 const PAIN_LABELS = {
   'Rodilla': 'la rodilla',
@@ -518,7 +526,7 @@ export default function App() {
     const t1 = cfg.t1 ? setTimeout(() => setLoadingStep(1), cfg.t1) : null
     const t2 = setTimeout(() => {
       if (cfg.redirect) {
-        window.location.href = REDIRECT_URL
+        window.location.href = TSL_URLS[answers.q4] || '/tsl/bienestar'
       } else {
         setVisible(false)
         setTimeout(() => { setScreen(cfg.next); setVisible(true) }, 380)
@@ -560,7 +568,7 @@ export default function App() {
       return
     }
     setEmailError('')
-    window.location.href = REDIRECT_URL
+    window.location.href = CHECKOUT_URL
   }
 
   const painLabel = PAIN_LABELS[answers.q4] || 'su dolor articular'
