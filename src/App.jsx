@@ -4,50 +4,202 @@ import './App.css'
 const REDIRECT_URL = 'https://pay.hotmart.com/X106313372V?checkoutMode=10'
 
 const PAIN_LABELS = {
-  rodilla: 'la rodilla',
-  lumbar: 'la zona lumbar y ciática',
-  cervical: 'la zona cervical y cuello',
-  caderas: 'las caderas',
+  'Rodilla': 'la rodilla',
+  'Lumbar o Ciática': 'la zona lumbar y ciática',
+  'Cervical y Cuello': 'la zona cervical y cuello',
+  'Caderas': 'las caderas',
 }
 
-const Q1_OPTIONS = [
-  { id: 'rodilla', label: 'Rodilla' },
-  { id: 'lumbar', label: 'Lumbar o Ciática' },
-  { id: 'cervical', label: 'Cervical y Cuello' },
-  { id: 'caderas', label: 'Caderas' },
+// ── 15 Questions ──────────────────────────────────────────────────────────────
+const QUESTIONS = [
+  // Bloque 1 — Sobre usted (Q1–Q5)
+  {
+    id: 'q1', block: 1,
+    title: '¿Cuál es su sexo?',
+    options: ['Hombre', 'Mujer', 'Prefiero no indicarlo'],
+  },
+  {
+    id: 'q2', block: 1,
+    title: '¿En qué rango de edad se encuentra usted?',
+    options: ['Menos de 45 años', 'Entre 45 y 55 años', 'Entre 55 y 65 años', 'Más de 65 años'],
+  },
+  {
+    id: 'q3', block: 1,
+    title: '¿Cómo definiría su nivel de actividad física habitual?',
+    options: [
+      'Sedentario/a — poco movimiento en el día a día',
+      'Ligero/a — camino, pero sin ejercicio regular',
+      'Moderado/a — ejercicio 1 o 2 veces por semana',
+      'Activo/a — ejercicio 3 o más veces por semana',
+    ],
+  },
+  {
+    id: 'q4', block: 1,
+    title: '¿Dónde localiza su principal foco de dolor o rigidez articular?',
+    options: ['Rodilla', 'Lumbar o Ciática', 'Cervical y Cuello', 'Caderas'],
+  },
+  {
+    id: 'q5', block: 1,
+    title: '¿Cuál es su principal objetivo al completar este cuestionario?',
+    options: [
+      'Entender el origen real de mi dolor',
+      'Encontrar una solución sin cirugía ni medicación',
+      'Recuperar mi movilidad y calidad de vida',
+      'Evitar que el dolor empeore con el tiempo',
+    ],
+  },
+  // Bloque 2 — Sobre su dolor (Q6–Q10)
+  {
+    id: 'q6', block: 2,
+    title: '¿Cuánto tiempo lleva conviviendo con este dolor o limitación?',
+    options: [
+      'Menos de 3 meses',
+      'Entre 3 meses y 1 año',
+      'Más de 1 año',
+      'Ya he perdido la cuenta',
+    ],
+  },
+  {
+    id: 'q7', block: 2,
+    title: '¿Cómo calificaría la intensidad de su dolor en un día normal?',
+    options: [
+      'Leve — molesta, pero puedo ignorarlo',
+      'Moderado — interfiere con mis actividades',
+      'Intenso — me limita considerablemente',
+      'Muy intenso — me incapacita en ciertos momentos',
+    ],
+  },
+  {
+    id: 'q8', block: 2,
+    title: '¿El dolor o la rigidez le impide descansar con normalidad por las noches?',
+    options: [
+      'Sí, me despierta o me cuesta dormirme',
+      'A veces me cuesta conciliar el sueño',
+      'No afecta directamente mi descanso',
+      'Depende del día',
+    ],
+  },
+  {
+    id: 'q9', block: 2,
+    title: '¿Ha probado algún tratamiento sin obtener mejoras duraderas?',
+    options: [
+      'Sí, he hecho fisioterapia sin éxito a largo plazo',
+      'Sí, he tomado medicación o antiinflamatorios',
+      'He probado varias cosas y nada ha funcionado',
+      'Todavía no he probado ningún tratamiento',
+    ],
+  },
+  {
+    id: 'q10', block: 2,
+    title: '¿El dolor le ha impedido realizar actividades que antes disfrutaba?',
+    options: [
+      'Sí, ya no puedo hacer muchas cosas que amaba',
+      'Sí, pero sigo haciendo lo que puedo',
+      'A veces debo adaptar o reducir las actividades',
+      'Todavía puedo hacer casi todo, aunque con esfuerzo',
+    ],
+  },
+  // Bloque 3 — Su solución (Q11–Q15)
+  {
+    id: 'q11', block: 3,
+    title: '¿Sabía que el 87 % de los dolores articulares crónicos pueden resolverse sin cirugía mediante un protocolo de descompresión específico?',
+    options: [
+      'No lo sabía — me alegra saberlo',
+      'Lo había escuchado, pero no sabía cómo lograrlo',
+      'Tenía mis dudas sobre si era posible',
+      'No lo creía posible para mi caso concreto',
+    ],
+  },
+  {
+    id: 'q12', block: 3,
+    title: 'Si existiese un programa de 8 semanas diseñado exactamente para su tipo de dolor, ¿cuántos minutos al día le dedicaría?',
+    options: [
+      '10 a 15 minutos al día',
+      '20 a 30 minutos al día',
+      'Más de 30 minutos al día',
+      'Lo que sea necesario para recuperarme',
+    ],
+  },
+  {
+    id: 'q13', block: 3,
+    title: '¿Qué es lo que más le motivaría a seguir un programa de recuperación articular?',
+    options: [
+      'Volver a moverme y caminar sin dolor',
+      'Recuperar mi independencia y autonomía',
+      'Dormir bien y despertar sin rigidez',
+      'Disfrutar de nuevo de mis actividades favoritas',
+    ],
+  },
+  {
+    id: 'q14', block: 3, yesno: true,
+    title: '¿Le gustaría recuperar su movilidad y volver a vivir sin dolor articular en las próximas semanas?',
+    options: ['Sí, quiero recuperarme', 'No, prefiero seguir como estoy'],
+  },
+  {
+    id: 'q15', block: 3, yesno: true,
+    title: '¿Está dispuesto/a a seguir un método natural, sin cirugía y sin medicación, durante 8 semanas para eliminar su dolor definitivamente?',
+    options: ['Sí, estoy dispuesto/a', 'Necesito más información primero'],
+  },
 ]
 
-const Q2_OPTIONS = [
-  'Menos de 3 meses',
-  'Entre 3 meses y 1 año',
-  'Más de 1 año',
-  'Ya he perdido la cuenta',
+const Q_BY_ID = Object.fromEntries(QUESTIONS.map(q => [q.id, q]))
+const Q_STEP  = Object.fromEntries(QUESTIONS.map((q, i) => [q.id, i + 1]))
+const TOTAL_Q = QUESTIONS.length
+
+// Non-linear progress: fast start, gradual slowdown (keeps users engaged)
+// Q1→15%, Q2→24%, Q3→33%, Q4→42%, Q5→50%, Q6→56%, Q7→62%, Q8→67%,
+// Q9→72%, Q10→77%, Q11→82%, Q12→87%, Q13→91%, Q14→96%, Q15→100%
+const PROGRESS_PCT = [0, 15, 24, 33, 42, 50, 56, 62, 67, 72, 77, 82, 87, 91, 96, 100]
+
+// Full navigation flow
+const FLOW = [
+  'intro',
+  'q1', 'q2', 'q3', 'q4', 'q5',
+  'loading1',
+  'q6', 'q7', 'q8', 'q9', 'q10',
+  'loading2',
+  'q11', 'q12', 'q13', 'q14', 'q15',
+  'loading3',
+  'lead',
 ]
 
-const Q3_LOWER = {
-  title: 'Entendido. Sabiendo que el dolor está en el tren inferior, ¿qué actividad diaria le resulta más difícil realizar hoy?',
-  options: [
-    'Bajar o subir escaleras',
-    'Caminar por más de 15 minutos',
-    'Levantarme de una silla baja',
-  ],
+// Back map — loading screens are transparent (skipped)
+const BACK_MAP = (() => {
+  const map = {}
+  let last = null
+  for (const s of FLOW) {
+    if (last !== null && !s.startsWith('loading') && s !== 'intro') map[s] = last
+    if (!s.startsWith('loading')) last = s
+  }
+  return map
+})()
+
+const NEXT_MAP = Object.fromEntries(FLOW.map((s, i) => [s, FLOW[i + 1]]))
+
+const LOADING_CFG = {
+  loading1: {
+    spinner: true,
+    messages: [
+      'Analizando su perfil personal\u2026',
+      'Preparando su protocolo especializado\u2026',
+    ],
+    t1: 1600, t2: 3400, next: 'q6',
+  },
+  loading2: {
+    manual: true, // controlled manually via AudioPlayer onEnded
+    next: 'q11',
+  },
+  loading3: {
+    spinner: false,
+    t1: 0, t2: 4200, redirect: true,
+  },
 }
 
-const Q3_SPINE = {
-  title: 'Entendido. La compresión en la columna limita el cuerpo entero. ¿En qué momento del día el dolor es más punzante?',
-  options: [
-    'Al levantarme de la cama por la mañana',
-    'Al estar mucho tiempo de pie',
-    'Al intentar dormir',
-  ],
+const BLOCK_TAGS = {
+  1: { label: 'Conociéndole mejor',       cls: 'tag--blue'   },
+  2: { label: 'Sobre su dolor',           cls: 'tag--orange' },
+  3: { label: 'Su solución personalizada', cls: 'tag--green'  },
 }
-
-const Q4_OPTIONS = [
-  'Menos de 50 años',
-  '50 a 58 años',
-  '59 a 68 años',
-  'Más de 68 años',
-]
 
 // ── Compliance documents ──────────────────────────────────────────────────────
 const LEGAL_DOCS = {
@@ -208,21 +360,22 @@ function Spinner() {
 
 // ── Progress bar ──────────────────────────────────────────────────────────────
 function ProgressBar({ step, total }) {
+  const pct = PROGRESS_PCT[step] ?? Math.round((step / total) * 100)
   return (
     <div className="progress-container">
-      <p className="progress-label">Paso {step} de {total}</p>
+      <p className="progress-label">Pregunta {step} de {total}</p>
       <div className="progress-bar">
-        <div className="progress-fill" style={{ width: `${(step / total) * 100}%` }} />
+        <div className="progress-fill" style={{ width: `${pct}%` }} />
       </div>
     </div>
   )
 }
 
 // ── Option button ─────────────────────────────────────────────────────────────
-function OptionBtn({ label, selected, onClick }) {
+function OptionBtn({ label, selected, onClick, variant }) {
   return (
     <button
-      className={`option-btn${selected ? ' option-btn--selected' : ''}`}
+      className={`option-btn${selected ? ' option-btn--selected' : ''}${variant ? ` option-btn--${variant}` : ''}`}
       onClick={onClick}
     >
       <span className="option-radio" aria-hidden="true">
@@ -242,56 +395,146 @@ function OptionBtn({ label, selected, onClick }) {
   )
 }
 
+// ── Back button ───────────────────────────────────────────────────────────────
+function BackBtn({ onClick }) {
+  return (
+    <button className="back-btn" onClick={onClick} aria-label="Volver">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M10 13L5 8l5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+      Volver
+    </button>
+  )
+}
+
+// ── Audio Player (Messenger-style) ───────────────────────────────────────────
+function AudioPlayer({ src, onEnded }) {
+  const audioRef = useRef(null)
+  const [playing, setPlaying]     = useState(false)
+  const [currentTime, setCurrent] = useState(0)
+  const [duration, setDuration]   = useState(0)
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    const onMeta = () => setDuration(audio.duration)
+    const onTime = () => setCurrent(audio.currentTime)
+    const onEnd  = () => { setPlaying(false); onEnded?.() }
+    audio.addEventListener('loadedmetadata', onMeta)
+    audio.addEventListener('timeupdate', onTime)
+    audio.addEventListener('ended', onEnd)
+    audio.play().then(() => setPlaying(true)).catch(() => {})
+    return () => {
+      audio.pause()
+      audio.removeEventListener('loadedmetadata', onMeta)
+      audio.removeEventListener('timeupdate', onTime)
+      audio.removeEventListener('ended', onEnd)
+    }
+  }, [])
+
+  function toggle() {
+    const audio = audioRef.current
+    if (playing) { audio.pause(); setPlaying(false) }
+    else { audio.play(); setPlaying(true) }
+  }
+
+  function fmt(t) {
+    const m = Math.floor(t / 60)
+    const s = Math.floor(t % 60)
+    return `${m}:${String(s).padStart(2, '0')}`
+  }
+
+  const progress = duration > 0 ? currentTime / duration : 0
+  const bars = Array.from({ length: 32 }, (_, i) =>
+    10 + Math.abs(Math.sin(i * 0.85) * 11 + Math.cos(i * 0.45) * 7)
+  )
+
+  return (
+    <div className="audio-player">
+      <audio ref={audioRef} src={src} preload="auto" />
+      <button className="audio-play-btn" onClick={toggle} aria-label={playing ? 'Pausar' : 'Reproducir'}>
+        {playing ? (
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="3" y="2" width="4" height="12" rx="1.5" fill="white"/>
+            <rect x="9" y="2" width="4" height="12" rx="1.5" fill="white"/>
+          </svg>
+        ) : (
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M4 2l10 6-10 6V2z" fill="white"/>
+          </svg>
+        )}
+      </button>
+      <div className="audio-waveform">
+        {bars.map((h, i) => (
+          <div
+            key={i}
+            className={`audio-bar${playing ? ' audio-bar--playing' : ''}`}
+            style={{
+              height: `${h}px`,
+              opacity: i / bars.length <= progress ? 1 : 0.28,
+              animationDelay: `${(i % 8) * 0.07}s`,
+            }}
+          />
+        ))}
+      </div>
+      <span className="audio-time">
+        {duration > 0 ? fmt(playing ? currentTime : duration) : '\u2013:--'}
+      </span>
+    </div>
+  )
+}
+
 // ── Main App ──────────────────────────────────────────────────────────────────
 export default function App() {
-  const [screen, setScreen] = useState('intro')
-  const [visible, setVisible] = useState(true)
-  const [q1, setQ1] = useState(null)
-  const [selectedQ1, setSelectedQ1] = useState(null)
+  const [screen, setScreen]           = useState('intro')
+  const [visible, setVisible]         = useState(true)
+  const [answers, setAnswers]         = useState({})
   const [loadingStep, setLoadingStep] = useState(0)
-  const [email, setEmail] = useState('')
-  const [emailError, setEmailError] = useState('')
-  const [activeModal, setActiveModal] = useState(null) // 'legal' | 'privacy' | 'terms'
+  const [showContinue, setShowContinue] = useState(false)
+  const [email, setEmail]             = useState('')
+  const [emailError, setEmailError]   = useState('')
+  const [activeModal, setActiveModal] = useState(null)
 
   const goTo = useCallback((next) => {
     setVisible(false)
-    setTimeout(() => {
-      setScreen(next)
-      setVisible(true)
-    }, 380)
+    setTimeout(() => { setScreen(next); setVisible(true) }, 380)
   }, [])
 
+  // Unified loading effect — skips manual screens (loading2)
   useEffect(() => {
-    if (screen !== 'loading1') return
+    const cfg = LOADING_CFG[screen]
+    if (!cfg || cfg.manual) return
     setLoadingStep(0)
-    const t1 = setTimeout(() => setLoadingStep(1), 1500)
+    const t1 = cfg.t1 ? setTimeout(() => setLoadingStep(1), cfg.t1) : null
     const t2 = setTimeout(() => {
-      setVisible(false)
-      setTimeout(() => { setScreen('q3'); setVisible(true) }, 380)
-    }, 3000)
-    return () => { clearTimeout(t1); clearTimeout(t2) }
+      if (cfg.redirect) {
+        window.location.href = REDIRECT_URL
+      } else {
+        setVisible(false)
+        setTimeout(() => { setScreen(cfg.next); setVisible(true) }, 380)
+      }
+    }, cfg.t2)
+    return () => { if (t1) clearTimeout(t1); clearTimeout(t2) }
   }, [screen])
 
+  // Reset continue button when entering loading2
   useEffect(() => {
     if (screen !== 'loading2') return
-    setLoadingStep(0)
-    const t1 = setTimeout(() => setLoadingStep(1), 1500)
-    const t2 = setTimeout(() => {
-      setVisible(false)
-      setTimeout(() => { setScreen('q4'); setVisible(true) }, 380)
-    }, 3200)
-    return () => { clearTimeout(t1); clearTimeout(t2) }
+    setShowContinue(false)
+    // Fallback: show button after 14s if autoplay is blocked
+    const t = setTimeout(() => setShowContinue(true), 14000)
+    return () => clearTimeout(t)
   }, [screen])
 
-  function handleQ1(id) {
-    setSelectedQ1(id)
-    setQ1(id)
-    setTimeout(() => goTo('q2'), 280)
+  function handleBack() {
+    const prev = BACK_MAP[screen]
+    if (prev) goTo(prev)
   }
 
-  function handleQ2() { setTimeout(() => goTo('loading1'), 280) }
-  function handleQ3() { setTimeout(() => goTo('loading2'), 280) }
-  function handleQ4() { setTimeout(() => goTo('lead'), 280) }
+  function handleAnswer(qId, value) {
+    setAnswers(prev => ({ ...prev, [qId]: value }))
+    setTimeout(() => goTo(NEXT_MAP[screen]), 280)
+  }
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -300,12 +543,11 @@ export default function App() {
       return
     }
     setEmailError('')
-    console.log('Lead capturado:', { q1, email })
     window.location.href = REDIRECT_URL
   }
 
-  const isLowerBody = q1 === 'rodilla' || q1 === 'caderas'
-  const q3Config = isLowerBody ? Q3_LOWER : Q3_SPINE
+  const painLabel = PAIN_LABELS[answers.q4] || 'su dolor articular'
+  const currentQ  = Q_BY_ID[screen]
 
   return (
     <div className="app">
@@ -313,39 +555,37 @@ export default function App() {
       <header className="header">
         <div className="header-inner">
           <div className="header-logo">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="white" strokeWidth="1.5"/>
-              <path d="M12 6v6l4 2" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-            <span>Instituto Biomecánico&nbsp;<strong>ClinicArticular</strong></span>
+            <img src="/logo.png" alt="Programa Movimiento Sin Dolor" className="header-logo-img" />
+            <span className="header-logo-text"><strong>Programa Movimiento Sin Dolor</strong></span>
           </div>
           <span className="header-badge">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <rect x="3" y="11" width="18" height="11" rx="2" stroke="rgba(255,255,255,0.75)" strokeWidth="2"/>
               <path d="M7 11V7a5 5 0 0110 0v4" stroke="rgba(255,255,255,0.75)" strokeWidth="2"/>
             </svg>
-            &nbsp;Datos protegidos — RGPD
+            &nbsp;Protegido y anónimo — RGPD
           </span>
         </div>
       </header>
 
-      {/* ── Main quiz ── */}
+      {/* ── Main ── */}
       <main className="main">
         <div className={`card${visible ? '' : ' card--hidden'}`}>
 
+          {/* ── Intro ── */}
           {screen === 'intro' && (
             <div className="screen">
-              <span className="tag tag--blue">Cuestionario Clínico Gratuito</span>
+              <span className="tag tag--blue">Cuestionario Clínico Personalizado</span>
               <h1 className="intro-title">Evaluación de Dolor Articular y Estructural</h1>
               <p className="intro-desc">
-                En menos de 2 minutos, nuestro sistema de triaje biomecánico identificará el origen
+                En menos de 3 minutos, nuestro sistema de triaje biomecánico identificará el origen
                 de su dolor y le mostrará el protocolo conservador más adecuado para su caso.
               </p>
               <div className="checklist">
                 {[
                   'Cuestionario validado clínicamente',
-                  'Protocolo personalizado en 4 preguntas',
-                  'Sin compromiso — 100% gratuito',
+                  'Protocolo 100 % personalizado para su perfil',
+                  'Más de 4.800 personas ya han recuperado su movilidad',
                 ].map((item) => (
                   <div key={item} className="checklist-item">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -357,7 +597,7 @@ export default function App() {
                 ))}
               </div>
               <button className="cta-btn" onClick={() => goTo('q1')}>
-                Iniciar Evaluación Clínica
+                ✓ Iniciar Evaluación
               </button>
               <p className="privacy-note">
                 Sus datos son tratados conforme al RGPD (UE) 2016/679. No se compartirán con terceros.
@@ -365,104 +605,90 @@ export default function App() {
             </div>
           )}
 
-          {screen === 'q1' && (
+          {/* ── Generic question render (Q1–Q15) ── */}
+          {currentQ && (
             <div className="screen">
-              <ProgressBar step={1} total={4} />
-              <h2 className="question-title">
-                ¿Dónde se localiza su principal foco de dolor o rigidez estructural?
-              </h2>
-              <div className="options-grid">
-                {Q1_OPTIONS.map((opt) => (
+              <BackBtn onClick={handleBack} />
+              <ProgressBar step={Q_STEP[screen]} total={TOTAL_Q} />
+              <h2 className="question-title">{currentQ.title}</h2>
+              <div className={currentQ.yesno ? 'options-yesno' : 'options-list'}>
+                {currentQ.options.map((opt, i) => (
                   <OptionBtn
-                    key={opt.id}
-                    label={opt.label}
-                    selected={selectedQ1 === opt.id}
-                    onClick={() => handleQ1(opt.id)}
+                    key={opt}
+                    label={opt}
+                    selected={false}
+                    variant={currentQ.yesno && i === 0 ? 'yes' : undefined}
+                    onClick={() => handleAnswer(screen, opt)}
                   />
                 ))}
               </div>
             </div>
           )}
 
-          {screen === 'q2' && (
-            <div className="screen">
-              <ProgressBar step={2} total={4} />
-              <h2 className="question-title">
-                ¿Cuánto tiempo lleva conviviendo con esta limitación?
-              </h2>
-              <div className="options-list">
-                {Q2_OPTIONS.map((opt) => (
-                  <OptionBtn key={opt} label={opt} selected={false} onClick={handleQ2} />
-                ))}
-              </div>
-            </div>
-          )}
-
+          {/* ── Loading 1 — after Q5 ── */}
           {screen === 'loading1' && (
             <div className="screen loading-screen">
               <Spinner />
               <p className="loading-text" key={loadingStep}>
                 {loadingStep === 0
-                  ? 'Analizando la cronicidad de su dolor\u2026'
-                  : 'Cruzando datos con el banco biomecánico\u2026'}
+                  ? 'Analizando su perfil personal\u2026'
+                  : 'Preparando su protocolo especializado\u2026'}
               </p>
-            </div>
-          )}
-
-          {screen === 'q3' && (
-            <div className="screen">
-              <ProgressBar step={3} total={4} />
-              <h2 className="question-title">{q3Config.title}</h2>
-              <div className="options-list">
-                {q3Config.options.map((opt) => (
-                  <OptionBtn key={opt} label={opt} selected={false} onClick={handleQ3} />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {screen === 'loading2' && (
-            <div className="screen loading-screen">
-              {loadingStep === 0 ? (
-                <>
-                  <Spinner />
-                  <p className="loading-text">Evaluando el nivel de desgaste articular\u2026</p>
-                </>
-              ) : (
-                <div className="success-box">
-                  <div className="success-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                  <p className="success-text">
-                    <strong>¡Excelente noticia!</strong> Según sus respuestas, su condición actual
-                    tiene un alto porcentaje de reversión biomecánica mediante descompresión guiada.
-                  </p>
+              {loadingStep === 1 && (
+                <div className="loading-notice">
+                  ¡Estamos preparando un protocolo especializado para su caso!
                 </div>
               )}
             </div>
           )}
 
-          {screen === 'q4' && (
-            <div className="screen">
-              <ProgressBar step={4} total={4} />
-              <h2 className="question-title">¿Cuál es su rango de edad actual?</h2>
-              <div className="options-list">
-                {Q4_OPTIONS.map((opt) => (
-                  <OptionBtn key={opt} label={opt} selected={false} onClick={handleQ4} />
-                ))}
+          {/* ── Loading 2 — after Q10: audio message ── */}
+          {screen === 'loading2' && (
+            <div className="screen loading-screen loading-screen--audio">
+              <p className="audio-prompt">
+                Tenemos un mensaje de voz especial para usted:
+              </p>
+              <AudioPlayer
+                src="/audio-quiz.mp3"
+                onEnded={() => setShowContinue(true)}
+              />
+              {showContinue && (
+                <button
+                  className="cta-btn cta-btn--blue"
+                  onClick={() => goTo(LOADING_CFG.loading2.next)}
+                >
+                  Continuar
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* ── Loading 3 — after Q15: final success message ── */}
+          {screen === 'loading3' && (
+            <div className="screen loading-screen">
+              <div className="success-box">
+                <div className="success-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <p className="success-text">
+                  <strong>¡Su programa personalizado está casi listo!</strong>
+                  En la página siguiente le mostraremos exactamente cómo funciona el Programa Movimiento Sin Dolor y cómo puede comenzar hoy mismo.
+                </p>
               </div>
             </div>
           )}
 
+          {/* ── Lead capture ── */}
           {screen === 'lead' && (
             <div className="screen">
+              <BackBtn onClick={handleBack} />
               <span className="tag tag--green">Su protocolo clínico está listo</span>
               <h2 className="lead-title">Protocolo Clínico de 8 Semanas</h2>
               <p className="lead-desc">
                 Hemos encontrado la solución conservadora exacta para aliviar{' '}
-                <strong>{PAIN_LABELS[q1] || 'su dolor'}</strong>. Introduzca su correo electrónico
+                <strong>{painLabel}</strong>. Introduzca su correo electrónico
                 para recibir su diagnóstico gratuito y ver el vídeo de prescripción.
               </p>
               <form onSubmit={handleSubmit} className="lead-form" noValidate>
@@ -500,6 +726,19 @@ export default function App() {
 
       {/* ── Footer ── */}
       <footer className="footer">
+        <div className="footer-cred">
+          <p className="footer-cred-label">Avalado por</p>
+          <div className="footer-cred-images">
+            {[1,2,3,4,5].map((n) => (
+              <img
+                key={n}
+                src={`/cred-${n}.png`}
+                alt={`Credencial ${n}`}
+                className="footer-cred-img"
+              />
+            ))}
+          </div>
+        </div>
         <div className="footer-inner">
           <button className="footer-link" onClick={() => setActiveModal('legal')}>
             Aviso Legal
