@@ -579,7 +579,7 @@ export default function App() {
               <h1 className="intro-title">Evaluación de Dolor Articular y Estructural</h1>
               <p className="intro-desc">
                 En menos de 3 minutos, nuestro sistema de triaje biomecánico identificará el origen
-                de su dolor y le mostrará el protocolo conservador más adecuado para su caso.
+                de su dolor y le mostrará el protocolo más adecuado para su caso.
               </p>
               <div className="checklist">
                 {[
