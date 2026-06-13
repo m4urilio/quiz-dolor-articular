@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import './App.css'
 
-const REDIRECT_URL = 'vsl-diagnostica.html'
+const REDIRECT_URL = 'https://pay.hotmart.com/X106313372V?checkoutMode=10'
 
 const PAIN_LABELS = {
   rodilla: 'la rodilla',
