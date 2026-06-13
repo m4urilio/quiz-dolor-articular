@@ -8,6 +8,14 @@ const PAIN_LABELS = {
   'Lumbar o Ciática': 'la zona lumbar y ciática',
   'Cervical y Cuello': 'la zona cervical y cuello',
   'Caderas': 'las caderas',
+  'Otro lugar': 'su zona de dolor',
+}
+
+const PAIN_IMAGES = {
+  'Rodilla': '/rodilla.png',
+  'Lumbar o Ciática': '/lumbar.png',
+  'Cervical y Cuello': '/cuello.png',
+  'Caderas': '/caderas.png',
 }
 
 // ── 15 Questions ──────────────────────────────────────────────────────────────
@@ -36,16 +44,16 @@ const QUESTIONS = [
   {
     id: 'q4', block: 1,
     title: '¿Dónde localiza su principal foco de dolor o rigidez articular?',
-    options: ['Rodilla', 'Lumbar o Ciática', 'Cervical y Cuello', 'Caderas'],
+    options: ['Rodilla', 'Lumbar o Ciática', 'Cervical y Cuello', 'Caderas', 'Otro lugar'],
   },
   {
     id: 'q5', block: 1,
-    title: '¿Cuál es su principal objetivo al completar este cuestionario?',
+    title: '¿Qué es lo que más le molesta de su dolor?',
     options: [
-      'Entender el origen real de mi dolor',
-      'Encontrar una solución sin cirugía ni medicación',
-      'Recuperar mi movilidad y calidad de vida',
-      'Evitar que el dolor empeore con el tiempo',
+      'Me impide dormir bien por las noches',
+      'No puedo caminar ni moverme con libertad',
+      'Dependo de medicación para funcionar',
+      'Siento que empeora con el tiempo',
     ],
   },
   // Bloque 2 — Sobre su dolor (Q6–Q10)
@@ -159,6 +167,7 @@ const FLOW = [
   'q6', 'q7', 'q8', 'q9', 'q10',
   'loading2',
   'q11', 'q12', 'q13', 'q14', 'q15',
+  'elena2',
   'loading3',
   'lead',
 ]
@@ -372,12 +381,13 @@ function ProgressBar({ step, total }) {
 }
 
 // ── Option button ─────────────────────────────────────────────────────────────
-function OptionBtn({ label, selected, onClick, variant }) {
+function OptionBtn({ label, selected, onClick, variant, img }) {
   return (
     <button
-      className={`option-btn${selected ? ' option-btn--selected' : ''}${variant ? ` option-btn--${variant}` : ''}`}
+      className={`option-btn${selected ? ' option-btn--selected' : ''}${variant ? ` option-btn--${variant}` : ''}${img ? ' option-btn--img' : ''}`}
       onClick={onClick}
     >
+      {img && <img src={img} alt="" className="option-btn-img" aria-hidden="true" />}
       <span className="option-radio" aria-hidden="true">
         {selected ? (
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -423,7 +433,6 @@ function AudioPlayer({ src, onEnded }) {
     audio.addEventListener('loadedmetadata', onMeta)
     audio.addEventListener('timeupdate', onTime)
     audio.addEventListener('ended', onEnd)
-    audio.play().then(() => setPlaying(true)).catch(() => {})
     return () => {
       audio.pause()
       audio.removeEventListener('loadedmetadata', onMeta)
@@ -490,7 +499,8 @@ export default function App() {
   const [visible, setVisible]         = useState(true)
   const [answers, setAnswers]         = useState({})
   const [loadingStep, setLoadingStep] = useState(0)
-  const [showContinue, setShowContinue] = useState(false)
+  const [showContinue, setShowContinue]   = useState(false)
+  const [showContinue2, setShowContinue2] = useState(false)
   const [email, setEmail]             = useState('')
   const [emailError, setEmailError]   = useState('')
   const [activeModal, setActiveModal] = useState(null)
@@ -521,8 +531,15 @@ export default function App() {
   useEffect(() => {
     if (screen !== 'loading2') return
     setShowContinue(false)
-    // Fallback: show button after 14s if autoplay is blocked
     const t = setTimeout(() => setShowContinue(true), 14000)
+    return () => clearTimeout(t)
+  }, [screen])
+
+  // Reset continue2 button when entering elena2
+  useEffect(() => {
+    if (screen !== 'elena2') return
+    setShowContinue2(false)
+    const t = setTimeout(() => setShowContinue2(true), 14000)
     return () => clearTimeout(t)
   }, [screen])
 
@@ -559,11 +576,10 @@ export default function App() {
             <span className="header-logo-text"><strong>Programa Movimiento Sin Dolor</strong></span>
           </div>
           <span className="header-badge">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect x="3" y="11" width="18" height="11" rx="2" stroke="rgba(255,255,255,0.75)" strokeWidth="2"/>
-              <path d="M7 11V7a5 5 0 0110 0v4" stroke="rgba(255,255,255,0.75)" strokeWidth="2"/>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{flexShrink:0}}>
+              <path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" stroke="rgba(255,255,255,0.75)" strokeWidth="2" strokeLinejoin="round"/>
             </svg>
-            &nbsp;Protegido y anónimo — RGPD
+            <span>Protegido y anónimo —<br />RGPD</span>
           </span>
         </div>
       </header>
@@ -618,6 +634,7 @@ export default function App() {
                     label={opt}
                     selected={false}
                     variant={currentQ.yesno && i === 0 ? 'yes' : undefined}
+                    img={currentQ.id === 'q4' ? PAIN_IMAGES[opt] : undefined}
                     onClick={() => handleAnswer(screen, opt)}
                   />
                 ))}
@@ -645,6 +662,13 @@ export default function App() {
           {/* ── Loading 2 — after Q10: audio message ── */}
           {screen === 'loading2' && (
             <div className="screen loading-screen loading-screen--audio">
+              <div className="expert-profile">
+                <img src="/elena-romero.png" alt="Elena Romero" className="expert-avatar" />
+                <div className="expert-info">
+                  <p className="expert-name">Elena Romero</p>
+                  <p className="expert-bio">Especialista en biomecánica y creadora del Método Movimiento Sin Dolor, con más de 7 años de experiencia en el sector.</p>
+                </div>
+              </div>
               <p className="audio-prompt">
                 Tenemos un mensaje de voz especial para usted:
               </p>
@@ -656,6 +680,34 @@ export default function App() {
                 <button
                   className="cta-btn cta-btn--blue"
                   onClick={() => goTo(LOADING_CFG.loading2.next)}
+                >
+                  Continuar
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* ── Elena 2 — after Q15: second audio message ── */}
+          {screen === 'elena2' && (
+            <div className="screen loading-screen loading-screen--audio">
+              <div className="expert-profile">
+                <img src="/elena-romero.png" alt="Elena Romero" className="expert-avatar" />
+                <div className="expert-info">
+                  <p className="expert-name">Elena Romero</p>
+                  <p className="expert-bio">Especialista en biomecánica y creadora del Método Movimiento Sin Dolor, con más de 7 años de experiencia en el sector.</p>
+                </div>
+              </div>
+              <p className="audio-prompt">
+                Elena tiene un mensaje especial para usted:
+              </p>
+              <AudioPlayer
+                src="/audio2-elena.mp3"
+                onEnded={() => setShowContinue2(true)}
+              />
+              {showContinue2 && (
+                <button
+                  className="cta-btn cta-btn--blue"
+                  onClick={() => goTo('loading3')}
                 >
                   Continuar
                 </button>
@@ -752,6 +804,7 @@ export default function App() {
             Términos y Condiciones
           </button>
         </div>
+        <p className="footer-legal-note">Empresa Ejemplo S.L. · NIF B12345678. Cumplimos la normativa española y europea de protección de datos, consumo y comercio electrónico.</p>
       </footer>
 
       {/* ── Compliance modal ── */}

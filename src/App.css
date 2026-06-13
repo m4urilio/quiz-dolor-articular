@@ -80,7 +80,7 @@
 /* ── Header ── */
 .header {
   background-color: var(--navy);
-  padding: 14px 20px;
+  padding: 8px 20px;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -105,12 +105,14 @@
 .header-logo-text {
   color: #FFFFFF;
   font-size: 14px;
-  letter-spacing: 0.01em;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.08em;
   opacity: 0.9;
 }
 
 .header-logo-img {
-  height: 36px;
+  height: 44px;
   width: auto;
   object-fit: contain;
   background: white;
@@ -127,9 +129,22 @@
 .header-badge {
   display: flex;
   align-items: center;
+  gap: 5px;
   font-size: 12px;
   color: rgba(255,255,255,0.65);
   white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .header-badge {
+    white-space: normal;
+    align-items: center;
+    line-height: 1.4;
+  }
+
+  .header-badge span {
+    text-align: right;
+  }
 }
 
 /* ── Main ── */
@@ -203,9 +218,10 @@
 .intro-title {
   font-size: 30px;
   font-weight: 700;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: var(--navy);
-  line-height: 1.3;
-  letter-spacing: -0.02em;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
   margin-bottom: 14px;
   animation: fadeUp 0.38s ease 0.08s both;
 }
@@ -301,10 +317,11 @@
 
 /* ── Question title ── */
 .question-title {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: var(--navy);
-  line-height: 1.45;
+  line-height: 1.35;
   margin-bottom: 24px;
   animation: fadeUp 0.38s ease 0.08s both;
 }
@@ -319,6 +336,12 @@
 .options-list {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+.options-list:has(.option-btn--img) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
@@ -351,6 +374,48 @@
 /* ── Audio player (Messenger style) ── */
 .loading-screen--audio {
   gap: 28px;
+}
+
+.expert-profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #F0F7FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 14px;
+  padding: 14px 16px;
+  width: 100%;
+}
+
+.expert-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  flex-shrink: 0;
+  border: 2px solid #0066CC;
+}
+
+.expert-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.expert-name {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.04em;
+  color: var(--navy);
+  margin: 0;
+}
+
+.expert-bio {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
 }
 
 .audio-prompt {
@@ -443,15 +508,32 @@
   animation: fadeUp 0.4s ease both;
 }
 
+.option-btn--img {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 14px 12px;
+  gap: 8px;
+}
+
+.option-btn-img {
+  width: 100%;
+  max-width: 140px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #0a3a6b;
+}
+
 .option-btn {
   display: flex;
   align-items: center;
   gap: 13px;
-  padding: 18px 20px;
+  padding: 20px 20px;
   background: var(--white);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
-  font-size: 19px;
+  font-size: 21px;
   font-family: inherit;
   color: var(--text);
   cursor: pointer;
@@ -564,7 +646,10 @@
 }
 
 .loading-text {
-  font-size: 19px;
+  font-size: 17px;
+  font-weight: 600;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: 0;
   color: var(--text-muted);
   text-align: center;
   animation: fadeUp 0.3s ease both;
@@ -624,8 +709,9 @@
 
 /* ── Lead screen ── */
 .lead-title {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: var(--navy);
   line-height: 1.3;
   margin-bottom: 14px;
@@ -799,6 +885,15 @@
   transform: scaleX(1);
 }
 
+.footer-legal-note {
+  text-align: center;
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  padding: 0 20px 16px;
+  margin: 0;
+  line-height: 1.5;
+}
+
 .footer-sep {
   font-size: 13px;
   color: rgba(255,255,255,0.25);
@@ -812,11 +907,11 @@
   }
 
   .intro-title {
-    font-size: 26px;
+    font-size: 34px;
   }
 
   .question-title {
-    font-size: 22px;
+    font-size: 30px;
   }
 
   .options-grid {
@@ -824,12 +919,12 @@
   }
 
   .option-btn {
-    font-size: 18px;
-    padding: 17px 16px;
+    font-size: 20px;
+    padding: 19px 16px;
   }
 
   .options-yesno .option-btn {
-    font-size: 19px;
+    font-size: 21px;
   }
 
   .cta-btn {
