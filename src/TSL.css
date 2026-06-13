@@ -104,18 +104,55 @@
   border-bottom: 1px solid var(--tsl-border);
 }
 
-.tsl-block:nth-child(even) {
+.tsl-block--alt {
   background: var(--tsl-gray);
   max-width: 100%;
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
-.tsl-block:nth-child(even) > * {
+.tsl-block--alt > * {
   max-width: 720px;
   margin-left: auto;
   margin-right: auto;
 }
+
+/* ── Image row (side by side) ── */
+.tsl-img-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 24px 0;
+}
+
+/* ── Benefits image pair ── */
+.tsl-benefits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 24px 0;
+}
+
+/* ── Checklist ── */
+.tsl-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tsl-checklist li {
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--tsl-navy);
+  padding: 14px 18px;
+  background: white;
+  border-radius: 10px;
+  border-left: 4px solid var(--tsl-green);
+}
+
 
 .tsl-block-title {
   font-size: 26px;
