@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import './App.css'
 
 const REDIRECT_URL = 'vsl-diagnostica.html'
@@ -49,6 +49,155 @@ const Q4_OPTIONS = [
   'Más de 68 años',
 ]
 
+// ── Compliance documents ──────────────────────────────────────────────────────
+const LEGAL_DOCS = {
+  legal: {
+    title: 'Aviso Legal',
+    sections: [
+      {
+        heading: '1. Datos identificativos del titular',
+        body: 'En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y del Comercio Electrónico (LSSICE), se informa que el titular de este sitio web es Instituto Biomecánico ClinicArticular, S.L. (en adelante, "la Empresa"), con domicilio social en España, inscrita en el Registro Mercantil correspondiente y con NIF pendiente de actualización en el momento de acceso a esta página.',
+      },
+      {
+        heading: '2. Objeto y ámbito de aplicación',
+        body: 'El presente Aviso Legal regula el acceso y uso del sitio web, cuya finalidad es ofrecer información de carácter divulgativo sobre salud biomecánica y articular, así como facilitar el acceso a cuestionarios de triaje orientativo. El acceso al sitio implica la aceptación plena y sin reservas de todas las disposiciones incluidas en este Aviso Legal.',
+      },
+      {
+        heading: '3. Propiedad intelectual e industrial',
+        body: 'Todos los contenidos del sitio web —incluyendo, a título enunciativo, textos, fotografías, gráficos, imágenes, iconos, tecnología, software, bases de datos y demás elementos audiovisuales— son propiedad exclusiva de la Empresa o de terceros que han autorizado su uso, y están protegidos por las leyes españolas e internacionales sobre propiedad intelectual e industrial. Queda expresamente prohibida su reproducción, distribución, comunicación pública o transformación sin autorización expresa y por escrito del titular.',
+      },
+      {
+        heading: '4. Limitación de responsabilidad',
+        body: 'La información contenida en este sitio web tiene carácter puramente orientativo y divulgativo. No sustituye en ningún caso el diagnóstico, consejo, tratamiento o prescripción de un profesional de la salud debidamente colegiado. La Empresa no se hace responsable de las decisiones tomadas por el usuario basándose en los contenidos del sitio web. El uso del cuestionario de triaje no genera ninguna relación clínica ni médico-paciente.',
+      },
+      {
+        heading: '5. Ley aplicable y jurisdicción',
+        body: 'El presente Aviso Legal se rige en su totalidad por la legislación española. Para la resolución de cualquier controversia derivada del uso de este sitio web, las partes se someten a la jurisdicción de los Juzgados y Tribunales competentes conforme a la normativa española vigente.',
+      },
+    ],
+  },
+  privacy: {
+    title: 'Política de Privacidad',
+    sections: [
+      {
+        heading: '1. Responsable del tratamiento',
+        body: 'Instituto Biomecánico ClinicArticular, S.L., con domicilio en España (en adelante, "el Responsable"), es el responsable del tratamiento de los datos personales que usted facilita a través de este sitio web.',
+      },
+      {
+        heading: '2. Datos personales que recabamos',
+        body: 'Mediante el formulario de captación de este sitio web, recabamos exclusivamente su dirección de correo electrónico, junto con las respuestas al cuestionario de triaje clínico (zona de dolor, duración de la limitación, actividades afectadas y rango de edad), con carácter anónimo y agregado.',
+      },
+      {
+        heading: '3. Finalidad del tratamiento',
+        body: 'Los datos son tratados con la finalidad de enviarle información personalizada sobre el protocolo biomecánico recomendado según sus respuestas, así como comunicaciones comerciales relacionadas con productos y servicios de salud articular. No se utilizarán para ninguna otra finalidad sin su consentimiento previo y expreso.',
+      },
+      {
+        heading: '4. Base jurídica del tratamiento',
+        body: 'El tratamiento se fundamenta en el consentimiento expreso del interesado, de conformidad con el artículo 6.1.a) del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo (RGPD) y la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y Garantía de los Derechos Digitales (LOPDGDD).',
+      },
+      {
+        heading: '5. Plazo de conservación',
+        body: 'Sus datos serán conservados durante el tiempo necesario para cumplir con la finalidad para la que fueron recabados y, en cualquier caso, mientras no retire su consentimiento. Una vez retirado el consentimiento o transcurrido el plazo legal aplicable, los datos serán suprimidos de forma segura.',
+      },
+      {
+        heading: '6. Derechos del interesado',
+        body: 'En cualquier momento, usted tiene derecho a acceder a sus datos personales, rectificarlos, suprimirlos, oponerse a su tratamiento, solicitar la limitación del tratamiento o su portabilidad, dirigiéndose por escrito al Responsable a través de los canales habilitados en este sitio web. Asimismo, tiene derecho a presentar una reclamación ante la Agencia Española de Protección de Datos (www.aepd.es) si considera que el tratamiento no se ajusta a la normativa vigente.',
+      },
+      {
+        heading: '7. Transferencias internacionales',
+        body: 'Sus datos no serán cedidos a terceros, salvo obligación legal o necesidad para la prestación del servicio. En caso de que sea necesario transferir datos a terceros países, se adoptarán las garantías adecuadas conforme al RGPD (cláusulas contractuales tipo u otros mecanismos aprobados por la Comisión Europea).',
+      },
+      {
+        heading: '8. Uso de cookies',
+        body: 'Este sitio web puede utilizar cookies técnicas necesarias para su funcionamiento. No se utilizan cookies de seguimiento o publicidad comportamental sin el consentimiento previo del usuario. Para más información, puede consultar nuestra Política de Cookies.',
+      },
+    ],
+  },
+  terms: {
+    title: 'Términos y Condiciones',
+    sections: [
+      {
+        heading: '1. Objeto',
+        body: 'Los presentes Términos y Condiciones regulan el uso del sitio web y la contratación de los servicios ofrecidos por Instituto Biomecánico ClinicArticular, S.L. El acceso y utilización del sitio web atribuye la condición de usuario e implica la aceptación plena de estos Términos.',
+      },
+      {
+        heading: '2. Carácter orientativo del cuestionario',
+        body: 'El cuestionario de triaje clínico disponible en este sitio tiene carácter exclusivamente divulgativo y orientativo. Los resultados obtenidos no constituyen un diagnóstico médico, ni sustituyen la valoración de un especialista. El usuario reconoce y acepta que la información facilitada no tiene valor clínico vinculante.',
+      },
+      {
+        heading: '3. Acceso al servicio y obligaciones del usuario',
+        body: 'El usuario se compromete a utilizar el sitio web y sus contenidos de conformidad con la ley, la moral y el orden público, y a no llevar a cabo ninguna acción que pueda dañar los sistemas informáticos del Responsable o de terceros. Queda prohibido el uso del sitio con fines ilícitos o lesivos.',
+      },
+      {
+        heading: '4. Propiedad intelectual',
+        body: 'Todos los contenidos, marcas, logotipos, diseños y elementos del sitio web son propiedad del Responsable o de sus licenciantes y están protegidos por la normativa de propiedad intelectual e industrial. Su reproducción, distribución o uso no autorizado queda expresamente prohibido.',
+      },
+      {
+        heading: '5. Exclusión de garantías y responsabilidad',
+        body: 'El Responsable no garantiza la disponibilidad y continuidad del funcionamiento del sitio web ni que la información sea exacta, completa o actualizada en todo momento. El Responsable no será responsable de los daños y perjuicios de cualquier naturaleza que puedan derivarse del uso del sitio web o de la imposibilidad de acceder al mismo.',
+      },
+      {
+        heading: '6. Modificación de los Términos',
+        body: 'El Responsable se reserva el derecho de modificar estos Términos y Condiciones en cualquier momento, comunicándolo mediante publicación en el sitio web. La continuación del uso del sitio tras la publicación de los cambios implicará la aceptación de los nuevos Términos.',
+      },
+      {
+        heading: '7. Ley aplicable y jurisdicción',
+        body: 'Estos Términos y Condiciones se rigen por la legislación española. Para la resolución de cualquier litigio derivado del uso de este sitio web, las partes se someten, con renuncia expresa a cualquier otro fuero que pudiera corresponderles, a la jurisdicción de los Juzgados y Tribunales del domicilio del usuario, conforme a lo establecido en la normativa de consumidores y usuarios vigente en España.',
+      },
+    ],
+  },
+}
+
+// ── Compliance Modal ──────────────────────────────────────────────────────────
+function ComplianceModal({ docKey, onClose }) {
+  const doc = LEGAL_DOCS[docKey]
+  const bodyRef = useRef(null)
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [])
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
+
+  function handleOverlayClick(e) {
+    if (e.target === e.currentTarget) onClose()
+  }
+
+  return (
+    <div className="modal-overlay" onClick={handleOverlayClick} role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div className="modal">
+        <div className="modal-header">
+          <h2 className="modal-title" id="modal-title">{doc.title}</h2>
+          <button className="modal-close" onClick={onClose} aria-label="Cerrar">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M2 2l14 14M16 2L2 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </div>
+        <div className="modal-body" ref={bodyRef}>
+          {doc.sections.map((s) => (
+            <div key={s.heading} className="modal-section">
+              <h3 className="modal-section-title">{s.heading}</h3>
+              <p className="modal-section-body">{s.body}</p>
+            </div>
+          ))}
+        </div>
+        <div className="modal-footer">
+          <button className="cta-btn cta-btn--blue" onClick={onClose}>
+            He leído y acepto
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Spinner ───────────────────────────────────────────────────────────────────
 function Spinner() {
   return (
     <div className="spinner">
@@ -57,6 +206,7 @@ function Spinner() {
   )
 }
 
+// ── Progress bar ──────────────────────────────────────────────────────────────
 function ProgressBar({ step, total }) {
   return (
     <div className="progress-container">
@@ -68,6 +218,7 @@ function ProgressBar({ step, total }) {
   )
 }
 
+// ── Option button ─────────────────────────────────────────────────────────────
 function OptionBtn({ label, selected, onClick }) {
   return (
     <button
@@ -91,6 +242,7 @@ function OptionBtn({ label, selected, onClick }) {
   )
 }
 
+// ── Main App ──────────────────────────────────────────────────────────────────
 export default function App() {
   const [screen, setScreen] = useState('intro')
   const [visible, setVisible] = useState(true)
@@ -99,6 +251,7 @@ export default function App() {
   const [loadingStep, setLoadingStep] = useState(0)
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
+  const [activeModal, setActiveModal] = useState(null) // 'legal' | 'privacy' | 'terms'
 
   const goTo = useCallback((next) => {
     setVisible(false)
@@ -136,17 +289,9 @@ export default function App() {
     setTimeout(() => goTo('q2'), 280)
   }
 
-  function handleQ2() {
-    setTimeout(() => goTo('loading1'), 280)
-  }
-
-  function handleQ3() {
-    setTimeout(() => goTo('loading2'), 280)
-  }
-
-  function handleQ4() {
-    setTimeout(() => goTo('lead'), 280)
-  }
+  function handleQ2() { setTimeout(() => goTo('loading1'), 280) }
+  function handleQ3() { setTimeout(() => goTo('loading2'), 280) }
+  function handleQ4() { setTimeout(() => goTo('lead'), 280) }
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -164,6 +309,7 @@ export default function App() {
 
   return (
     <div className="app">
+      {/* ── Header ── */}
       <header className="header">
         <div className="header-inner">
           <div className="header-logo">
@@ -183,6 +329,7 @@ export default function App() {
         </div>
       </header>
 
+      {/* ── Main quiz ── */}
       <main className="main">
         <div className={`card${visible ? '' : ' card--hidden'}`}>
 
@@ -340,7 +487,9 @@ export default function App() {
               </form>
               <p className="gdpr-note">
                 Al enviar, acepta nuestra{' '}
-                <a href="#" className="text-link">Política de Privacidad</a>.
+                <button className="text-link" onClick={() => setActiveModal('privacy')}>
+                  Política de Privacidad
+                </button>.
                 Sus datos son tratados conforme al RGPD. No compartiremos su información con terceros.
               </p>
             </div>
@@ -349,15 +498,30 @@ export default function App() {
         </div>
       </main>
 
+      {/* ── Footer ── */}
       <footer className="footer">
         <div className="footer-inner">
-          <a href="#" className="footer-link">Aviso Legal</a>
+          <button className="footer-link" onClick={() => setActiveModal('legal')}>
+            Aviso Legal
+          </button>
           <span className="footer-sep" aria-hidden="true">·</span>
-          <a href="#" className="footer-link">Política de Privacidad</a>
+          <button className="footer-link" onClick={() => setActiveModal('privacy')}>
+            Política de Privacidad
+          </button>
           <span className="footer-sep" aria-hidden="true">·</span>
-          <a href="#" className="footer-link">Términos y Condiciones</a>
+          <button className="footer-link" onClick={() => setActiveModal('terms')}>
+            Términos y Condiciones
+          </button>
         </div>
       </footer>
+
+      {/* ── Compliance modal ── */}
+      {activeModal && (
+        <ComplianceModal
+          docKey={activeModal}
+          onClose={() => setActiveModal(null)}
+        />
+      )}
     </div>
   )
 }
