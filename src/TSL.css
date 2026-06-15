@@ -274,6 +274,10 @@
     grid-template-columns: repeat(3, 1fr);
   }
 
+  .tsl-testimonials-grid--images {
+    display: block;
+  }
+
   .tsl-final-title {
     font-size: 34px;
   }
