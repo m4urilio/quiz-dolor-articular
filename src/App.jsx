@@ -3,12 +3,29 @@ import './App.css'
 
 const CHECKOUT_URL = 'https://pay.hotmart.com/X106313372V?checkoutMode=10'
 
+// Repassa UTMs da URL atual para o checkout da Hotmart
+function getCheckoutWithUtms() {
+  const params = new URLSearchParams(window.location.search)
+  const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'src', 'sck']
+  const url = new URL(CHECKOUT_URL)
+  utmKeys.forEach(key => {
+    const val = params.get(key)
+    if (val) url.searchParams.set(key, val)
+  })
+  return url.toString()
+}
+
+function track(event, params) {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', event, params)
+  }
+}
+
 const TSL_URLS = {
   'Rodilla':          '/tsl/rodilla',
   'Lumbar o Ciática': '/tsl/lumbar',
   'Cervical y Cuello':'/tsl/cervical',
   'Caderas':          '/tsl/caderas',
-  'Otro lugar':       '/tsl/bienestar',
 }
 
 const PAIN_LABELS = {
@@ -16,14 +33,13 @@ const PAIN_LABELS = {
   'Lumbar o Ciática': 'la zona lumbar y ciática',
   'Cervical y Cuello': 'la zona cervical y cuello',
   'Caderas': 'las caderas',
-  'Otro lugar': 'su zona de dolor',
 }
 
 const PAIN_IMAGES = {
-  'Rodilla': '/rodilla.png',
-  'Lumbar o Ciática': '/lumbar.png',
-  'Cervical y Cuello': '/cuello.png',
-  'Caderas': '/caderas.png',
+  'Rodilla': '/rodilla.webp',
+  'Lumbar o Ciática': '/lumbar.webp',
+  'Cervical y Cuello': '/cuello.webp',
+  'Caderas': '/caderas.webp',
 }
 
 // ── 15 Questions ──────────────────────────────────────────────────────────────
@@ -52,7 +68,7 @@ const QUESTIONS = [
   {
     id: 'q4', block: 1,
     title: '¿Dónde localiza su principal foco de dolor o rigidez articular?',
-    options: ['Rodilla', 'Lumbar o Ciática', 'Cervical y Cuello', 'Caderas', 'Otro lugar'],
+    options: ['Rodilla', 'Lumbar o Ciática', 'Cervical y Cuello', 'Caderas'],
   },
   {
     id: 'q5', block: 1,
@@ -128,7 +144,7 @@ const QUESTIONS = [
   },
   {
     id: 'q12', block: 3,
-    title: 'Si existiese un programa de 8 semanas diseñado exactamente para su tipo de dolor, ¿cuántos minutos al día le dedicaría?',
+    title: 'Si existiese un programa de 4 semanas diseñado exactamente para su tipo de dolor, ¿cuántos minutos al día le dedicaría?',
     options: [
       '10 a 15 minutos al día',
       '20 a 30 minutos al día',
@@ -153,7 +169,7 @@ const QUESTIONS = [
   },
   {
     id: 'q15', block: 3, yesno: true,
-    title: '¿Está dispuesto/a a seguir un método natural, sin cirugía y sin medicación, durante 8 semanas para eliminar su dolor definitivamente?',
+    title: '¿Está dispuesto/a a seguir un método natural, sin cirugía y sin medicación, durante 4 semanas para eliminar su dolor definitivamente?',
     options: ['Sí, estoy dispuesto/a', 'Necesito más información primero'],
   },
 ]
@@ -468,7 +484,7 @@ function AudioPlayer({ src, onEnded }) {
 
   return (
     <div className="audio-player">
-      <audio ref={audioRef} src={src} preload="auto" />
+      <audio ref={audioRef} src={src} preload="none" />
       <button className="audio-play-btn" onClick={toggle} aria-label={playing ? 'Pausar' : 'Reproducir'}>
         {playing ? (
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -568,7 +584,9 @@ export default function App() {
       return
     }
     setEmailError('')
-    window.location.href = CHECKOUT_URL
+    track('Lead', { content_name: 'Quiz Dolor Articular' })
+    track('InitiateCheckout')
+    window.location.href = getCheckoutWithUtms()
   }
 
   const painLabel = PAIN_LABELS[answers.q4] || 'su dolor articular'
@@ -576,22 +594,6 @@ export default function App() {
 
   return (
     <div className="app">
-      {/* ── Header ── */}
-      <header className="header">
-        <div className="header-inner">
-          <div className="header-logo">
-            <img src="/logo.png" alt="Programa Movimiento Sin Dolor" className="header-logo-img" />
-            <span className="header-logo-text"><strong>Programa Movimiento Sin Dolor</strong></span>
-          </div>
-          <span className="header-badge">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{flexShrink:0}}>
-              <path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" stroke="rgba(255,255,255,0.75)" strokeWidth="2" strokeLinejoin="round"/>
-            </svg>
-            <span>Protegido y anónimo —<br />RGPD</span>
-          </span>
-        </div>
-      </header>
-
       {/* ── Main ── */}
       <main className="main">
         <div className={`card${visible ? '' : ' card--hidden'}`}>
@@ -605,6 +607,9 @@ export default function App() {
                 En menos de 3 minutos, nuestro sistema de triaje biomecánico identificará el origen
                 de su dolor y le mostrará el protocolo más adecuado para su caso.
               </p>
+              <button className="cta-btn" onClick={() => { track('ViewContent', { content_name: 'Quiz Dolor Articular' }); goTo('q1') }}>
+                ✓ Iniciar Evaluación
+              </button>
               <div className="checklist">
                 {[
                   'Cuestionario validado clínicamente',
@@ -620,9 +625,6 @@ export default function App() {
                   </div>
                 ))}
               </div>
-              <button className="cta-btn" onClick={() => goTo('q1')}>
-                ✓ Iniciar Evaluación
-              </button>
               <p className="privacy-note">
                 Sus datos son tratados conforme al RGPD (UE) 2016/679. No se compartirán con terceros.
               </p>
@@ -671,7 +673,7 @@ export default function App() {
           {screen === 'loading2' && (
             <div className="screen loading-screen loading-screen--audio">
               <div className="expert-profile">
-                <img src="/elena-romero.png" alt="Elena Romero" className="expert-avatar" />
+                <img src="/elena-romero.webp" alt="Elena Romero" className="expert-avatar" />
                 <div className="expert-info">
                   <p className="expert-name">Elena Romero</p>
                   <p className="expert-bio">Especialista en biomecánica y creadora del Método Movimiento Sin Dolor, con más de 7 años de experiencia en el sector.</p>
@@ -699,7 +701,7 @@ export default function App() {
           {screen === 'elena2' && (
             <div className="screen loading-screen loading-screen--audio">
               <div className="expert-profile">
-                <img src="/elena-romero.png" alt="Elena Romero" className="expert-avatar" />
+                <img src="/elena-romero.webp" alt="Elena Romero" className="expert-avatar" />
                 <div className="expert-info">
                   <p className="expert-name">Elena Romero</p>
                   <p className="expert-bio">Especialista en biomecánica y creadora del Método Movimiento Sin Dolor, con más de 7 años de experiencia en el sector.</p>
@@ -792,7 +794,7 @@ export default function App() {
             {[1,2,3,4,5].map((n) => (
               <img
                 key={n}
-                src={`/cred-${n}.png`}
+                src={`/cred-${n}.webp`}
                 alt={`Credencial ${n}`}
                 className="footer-cred-img"
               />
@@ -812,7 +814,7 @@ export default function App() {
             Términos y Condiciones
           </button>
         </div>
-        <p className="footer-legal-note">Empresa Ejemplo S.L. · NIF B12345678. Cumplimos la normativa española y europea de protección de datos, consumo y comercio electrónico.</p>
+        <p className="footer-legal-note">Empresa Movimiento Sin Dolor S.L. · NIF B12345678. Cumplimos la normativa española y europea de protección de datos, consumo y comercio electrónico.</p>
       </footer>
 
       {/* ── Compliance modal ── */}

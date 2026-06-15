@@ -240,8 +240,7 @@
   gap: 11px;
   padding: 20px 22px;
   background: #F5F8FF;
-  border-left: 3px solid var(--blue);
-  border-radius: 0 var(--radius) var(--radius) 0;
+  border-radius: var(--radius);
   margin-bottom: 28px;
   animation: fadeUp 0.38s ease 0.2s both;
 }
@@ -250,7 +249,7 @@
   display: flex;
   align-items: center;
   gap: 11px;
-  font-size: 18px;
+  font-size: 14px;
   color: var(--text);
   animation: fadeLeft 0.3s ease both;
 }

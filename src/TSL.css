@@ -21,24 +21,6 @@
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Header ── */
-.tsl-header {
-  background: var(--tsl-navy);
-  padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tsl-logo {
-  height: 48px;
-  width: auto;
-  object-fit: contain;
-  background: white;
-  padding: 4px 12px;
-  border-radius: 8px;
-}
-
 /* ── Hero ── */
 .tsl-hero {
   background: var(--tsl-navy);
@@ -146,11 +128,16 @@
 .tsl-checklist li {
   font-size: 19px;
   font-weight: 600;
-  color: var(--tsl-navy);
+  color: var(--tsl-green);
   padding: 14px 18px;
-  background: white;
+  background: #fff;
   border-radius: 10px;
-  border-left: 4px solid var(--tsl-green);
+  border-left: none;
+}
+
+.tsl-checklist--costs li {
+  background: #f0f0f0;
+  color: #333;
 }
 
 
@@ -272,7 +259,7 @@
   margin: 4px 0;
 }
 
-/* ── Tablet / Desktop ── */
+/* ── Tablet ── */
 @media (min-width: 640px) {
   .tsl-hero-title {
     font-size: 42px;
@@ -289,5 +276,18 @@
 
   .tsl-final-title {
     font-size: 34px;
+  }
+}
+
+/* ── Desktop — centered column ── */
+@media (min-width: 900px) {
+  .tsl-page {
+    max-width: 740px;
+    margin: 0 auto;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.07);
+  }
+
+  .tsl-block--alt {
+    max-width: 100%;
   }
 }
