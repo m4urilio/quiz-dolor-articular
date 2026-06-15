@@ -77,76 +77,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Header ── */
-.header {
-  background-color: var(--navy);
-  padding: 8px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-}
-
-.header-inner {
-  max-width: 680px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.header-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.header-logo-text {
-  color: #FFFFFF;
-  font-size: 14px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 300;
-  letter-spacing: 0.08em;
-  opacity: 0.9;
-}
-
-.header-logo-img {
-  height: 44px;
-  width: auto;
-  object-fit: contain;
-  background: white;
-  padding: 4px 10px;
-  border-radius: 8px;
-  opacity: 0.95;
-  transition: opacity 0.2s ease;
-}
-
-.header-logo-img:hover {
-  opacity: 1;
-}
-
-.header-badge {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.65);
-  white-space: nowrap;
-}
-
-@media (max-width: 480px) {
-  .header-badge {
-    white-space: normal;
-    align-items: center;
-    line-height: 1.4;
-  }
-
-  .header-badge span {
-    text-align: right;
-  }
-}
-
 /* ── Main ── */
 .main {
   flex: 1;
@@ -326,12 +256,6 @@
 }
 
 /* ── Option buttons ── */
-.options-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
 .options-list {
   display: flex;
   flex-direction: column;
@@ -549,12 +473,6 @@
 .options-list .option-btn:nth-child(2) { animation-delay: 0.17s; }
 .options-list .option-btn:nth-child(3) { animation-delay: 0.24s; }
 .options-list .option-btn:nth-child(4) { animation-delay: 0.31s; }
-
-/* Staggered entry — grid */
-.options-grid .option-btn:nth-child(1) { animation-delay: 0.1s; }
-.options-grid .option-btn:nth-child(2) { animation-delay: 0.16s; }
-.options-grid .option-btn:nth-child(3) { animation-delay: 0.22s; }
-.options-grid .option-btn:nth-child(4) { animation-delay: 0.28s; }
 
 .option-btn:hover {
   border-color: var(--blue);
@@ -911,10 +829,6 @@
 
   .question-title {
     font-size: 30px;
-  }
-
-  .options-grid {
-    grid-template-columns: 1fr;
   }
 
   .option-btn {

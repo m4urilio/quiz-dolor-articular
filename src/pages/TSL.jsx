@@ -10,7 +10,7 @@ function Footer() {
     <footer className="tsl-footer">
       <div style={{display:'flex', flexWrap:'wrap', justifyContent:'center', alignItems:'center', gap:'16px', marginBottom:'20px'}}>
         {[1,2,3,4,5].map((n) => (
-          <img key={n} src={`/cred-${n}.webp`} alt={`Credencial ${n}`} style={{height:'48px', objectFit:'contain', opacity:0.85, borderRadius:'8px'}} />
+          <img key={n} src={`/cred-${n}.webp`} alt={`Credencial ${n}`} height="96" loading="lazy" style={{height:'48px', objectFit:'contain', opacity:0.85, borderRadius:'8px'}} />
         ))}
       </div>
       <p>© {new Date().getFullYear()} Programa Movimiento Sin Dolor · Todos los derechos reservados</p>
@@ -146,7 +146,7 @@ function TestimonialsBlock() {
       {TESTIMONIALS.map((t) => (
         <div key={t.name} style={{display:'flex', alignItems:'flex-start', gap:'20px', background:'#fff', borderRadius:'12px', padding:'20px', boxShadow:'0 2px 8px rgba(0,0,0,0.07)'}}>
           {t.img
-            ? <img src={t.img} alt={t.name} style={{flexShrink:0, width:'72px', height:'72px', borderRadius:'50%', objectFit:'cover'}} />
+            ? <img src={t.img} alt={t.name} width="144" height="144" loading="lazy" style={{flexShrink:0, width:'72px', height:'72px', borderRadius:'50%', objectFit:'cover'}} />
             : <div style={{flexShrink:0, width:'72px', height:'72px', borderRadius:'50%', background:t.color, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'28px', fontWeight:'800', color:'#fff'}}>{t.initials}</div>
           }
           <div>
@@ -194,10 +194,10 @@ function CervicalPage() {
       {/* Bloco 1 — Diagnóstico */}
       <section className="tsl-block">
         <TSLAudioPlayer />
-        <img src="/cervical-comparativo.webp" alt="Comparativo dolor cervical vs. alivio" loading="lazy" style={{width:'100%', borderRadius:'12px', margin:'24px 0'}} />
+        <img src="/cervical-comparativo.webp" alt="Comparativo dolor cervical vs. alivio" width="800" height="450" loading="lazy" style={{width:'100%', height:'auto', borderRadius:'12px', margin:'24px 0'}} />
         <p className="tsl-block-text">He revisado su caso cervical personalmente y tengo conclusiones que le devolverán la esperanza. Lo que siente no es irreversible; he identificado el punto exacto donde su cuerpo está bloqueado. Es la clave que nadie le había mencionado hasta hoy y que cambia todo lo que pensaba sobre su dolor.</p>
         <p className="tsl-block-text">Hola, soy Elena Romero, especialista en biomecánica y creadora de Movimiento Sin Dolor. He dedicado mi carrera a descifrar por qué el cuerpo se "apaga". Tras analizar sus respuestas sobre esa tensión constante en su cuello, tengo una buena noticia: su estructura no está desgastada, está simplemente bloqueada.</p>
-        <img src="/elenaromero.webp" alt="Elena Romero" loading="lazy" style={{display:'block', width:'180px', borderRadius:'50%', border:'4px solid #0066CC', margin:'20px auto'}} />
+        <img src="/elenaromero.webp" alt="Elena Romero" width="360" height="399" loading="lazy" style={{display:'block', width:'180px', height:'auto', borderRadius:'50%', border:'4px solid #0066CC', margin:'20px auto'}} />
         <p className="tsl-block-text">Usted probablemente siente esa carga pesada sobre los hombros, como si llevara una mochila invisible, o ese bloqueo que le impide girar la cabeza con libertad. Muchos le dirán que es "solo estrés" o "cosas de la edad", pero mi diagnóstico es otro: es una compresión mecánica. Sus vértebras están atrapadas por una dinámica postural acumulada, no por una lesión definitiva.</p>
       </section>
 
@@ -207,14 +207,14 @@ function CervicalPage() {
         <p className="tsl-block-text">No necesita medicamentos que solo entorpecen sus sentidos; necesita devolverle a su cuello el espacio articular que ha perdido.</p>
         <p className="tsl-block-text">Sé que ha probado pomadas o fisioterapia que ofrecen un alivio pasajero. El sistema tradicional trata el síntoma; yo ataco la causa.</p>
         <p className="tsl-block-text">Mi método se basa en la reeducación biomecánica. No le pediré que vaya al gimnasio ni que levante pesas. Es una rutina innegociable de solo <strong>7 minutos diarios</strong> de "ajuste articular".</p>
-        <img src="/cervical-vertebras.webp" alt="Engranaje recuperando espacio entre vértebras" loading="lazy" style={{width:'100%', borderRadius:'12px', margin:'24px 0'}} />
+        <img src="/cervical-vertebras.webp" alt="Engranaje recuperando espacio entre vértebras" width="608" height="607" loading="lazy" style={{width:'100%', height:'auto', borderRadius:'12px', margin:'24px 0'}} />
         <p className="tsl-block-text">Imagínelo como un engranaje oxidado: el movimiento suave y constante recupera el espacio perdido. Desde su silla, sin complicaciones y usando solo su peso corporal, usted desbloquea su estructura. Es ciencia aplicada, no magia.</p>
       </section>
 
       {/* Bloco 3 — App e objeção */}
       <section className="tsl-block">
         <h2 className="tsl-block-title" style={{fontSize:'18px'}}>Por eso creé el programa Movimiento sin Dolor: una rutina de estiramientos de 7 minutos que cualquier persona puede realizar.</h2>
-        <img src="/app-preview.webp" alt="Así es Movimiento Sin Dolor por dentro" loading="lazy" style={{width:'100%', borderRadius:'12px', margin:'24px 0'}} />
+        <img src="/app-preview.webp" alt="Así es Movimiento Sin Dolor por dentro" width="800" height="450" loading="lazy" style={{width:'100%', height:'auto', borderRadius:'12px', margin:'24px 0'}} />
         <p className="tsl-block-text">Este programa es una aplicación que puede utilizarse fácilmente tanto en el teléfono móvil como en el ordenador portátil, de forma sencilla e intuitiva, y ya ha ayudado a más de 2.000 personas a mejorar su calidad de vida mediante sencillos ejercicios de estiramiento.</p>
         <p className="tsl-block-text">¿Teme que estirar le cause más dolor o cree que el programa no es para usted porque nunca lo ha hecho? Ese es un error común. La inmovilidad es su peor enemiga: si no moviliza, su cuerpo se "oxida" y la compresión aumenta.</p>
         <p className="tsl-block-text">Mi programa está diseñado precisamente para personas que conviven con dolor severo y nunca han estirado. Nuestra aplicación es intuitiva, clara y segura. No necesita dominar la tecnología ni ser un atleta; el protocolo se adapta a su nivel actual, descomprimiendo suavemente.</p>
@@ -317,10 +317,10 @@ function LumbarPage() {
       {/* Bloco 1 — Diagnóstico */}
       <section className="tsl-block">
         <TSLAudioPlayer />
-        <img src="/lumbar-vertebras.webp" alt="Vértebras descomprimiéndose" loading="lazy" style={{width:'100%', borderRadius:'12px', margin:'24px 0'}} />
+        <img src="/lumbar-vertebras.webp" alt="Vértebras descomprimiéndose" width="800" height="450" loading="lazy" style={{width:'100%', height:'auto', borderRadius:'12px', margin:'24px 0'}} />
         <p className="tsl-block-text">He revisado su caso lumbar personalmente y tengo conclusiones que le devolverán la esperanza. Lo que siente no es irreversible; he identificado el punto exacto donde su cuerpo está bloqueado. Es la clave que nadie le había mencionado hasta hoy y que cambia todo lo que pensaba sobre su dolor.</p>
         <p className="tsl-block-text">Hola, soy Elena Romero, especialista en biomecánica y creadora de Movimiento Sin Dolor. He dedicado mi carrera a descifrar por qué el cuerpo se "apaga". Tras analizar sus respuestas sobre ese pinchazo en la espalda y el corrientazo hacia sus piernas, tengo una buena noticia: su estructura no está desgastada, está simplemente bloqueada.</p>
-        <img src="/elenaromero.webp" alt="Elena Romero" loading="lazy" style={{display:'block', width:'180px', borderRadius:'50%', border:'4px solid #0066CC', margin:'20px auto'}} />
+        <img src="/elenaromero.webp" alt="Elena Romero" width="360" height="399" loading="lazy" style={{display:'block', width:'180px', height:'auto', borderRadius:'50%', border:'4px solid #0066CC', margin:'20px auto'}} />
         <p className="tsl-block-text">Usted probablemente siente ese pinchazo sordo al agacharse, o ese dolor que le recorre desde la cintura hasta la pierna al intentar levantarse de la silla. Muchos le dirán que es "solo la edad" o "un nervio que no tiene cura", pero mi diagnóstico es otro: es una compresión mecánica. Sus vértebras lumbares están atrapadas por la gravedad y los años, pellizcando sus nervios.</p>
       </section>
 
@@ -330,14 +330,14 @@ function LumbarPage() {
         <p className="tsl-block-text">No necesita medicamentos que solo enfrían la piel o dañan su estómago; necesita devolverle a sus vértebras el espacio articular que han perdido.</p>
         <p className="tsl-block-text">Sé que ha probado fisioterapia o masajes que ofrecen un alivio pasajero. El sistema tradicional trata el síntoma; yo ataco la causa.</p>
         <p className="tsl-block-text">Mi método se basa en la reeducación biomecánica. No le pediré que vaya al gimnasio ni que haga movimientos peligrosos. Es una rutina innegociable de solo <strong>7 minutos diarios</strong> de "ajuste articular".</p>
-        <img src="/lumbar-comparativo.webp" alt="Comparativo lumbar" loading="lazy" style={{width:'100%', borderRadius:'12px', margin:'24px 0'}} />
+        <img src="/lumbar-comparativo.webp" alt="Comparativo lumbar" width="800" height="800" loading="lazy" style={{width:'100%', height:'auto', borderRadius:'12px', margin:'24px 0'}} />
         <p className="tsl-block-text">Imagínelo como un engranaje oxidado: el movimiento suave y constante recupera el espacio perdido. Desde su silla, sin complicaciones y usando solo su peso corporal, usted libera el nervio ciático y desbloquea su estructura. Es ciencia aplicada, no magia.</p>
       </section>
 
       {/* Bloco 3 — App e objeção */}
       <section className="tsl-block">
         <h2 className="tsl-block-title" style={{fontSize:'18px'}}>Por eso creé el programa Movimiento sin Dolor: una rutina de estiramientos de 7 minutos que cualquier persona puede realizar.</h2>
-        <img src="/app-preview.webp" alt="Así es Movimiento Sin Dolor por dentro" loading="lazy" style={{width:'100%', borderRadius:'12px', margin:'24px 0'}} />
+        <img src="/app-preview.webp" alt="Así es Movimiento Sin Dolor por dentro" width="800" height="450" loading="lazy" style={{width:'100%', height:'auto', borderRadius:'12px', margin:'24px 0'}} />
         <p className="tsl-block-text">Este programa es una aplicación que puede utilizarse fácilmente tanto en el teléfono móvil como en el ordenador portátil, de forma sencilla e intuitiva, y ya ha ayudado a más de 2.000 personas a mejorar su calidad de vida mediante sencillos ejercicios de estiramiento.</p>
         <p className="tsl-block-text">¿Teme que estirar le cause más dolor o cree que el programa no es para usted porque siente un dolor muy fuerte? Ese es un error común. La inmovilidad es su peor enemiga: si no moviliza, su cuerpo se "oxida" y la compresión aumenta.</p>
         <p className="tsl-block-text">Mi programa está diseñado precisamente para personas que conviven con dolor lumbar severo y nunca han estirado. Nuestra aplicación es intuitiva, clara y segura. No necesita dominar la tecnología ni ser un atleta; el protocolo se adapta a su nivel actual, descomprimiendo suavemente.</p>
@@ -392,10 +392,10 @@ function RodillaPage() {
       {/* Bloco 1 */}
       <section className="tsl-block">
         <TSLAudioPlayer />
-        <img src="/rodilla1.webp" alt="Comparativo visual rodilla" loading="lazy" style={{width:'100%', borderRadius:'12px', margin:'24px 0'}} />
+        <img src="/rodilla1.webp" alt="Comparativo visual rodilla" width="800" height="450" loading="lazy" style={{width:'100%', height:'auto', borderRadius:'12px', margin:'24px 0'}} />
         <p className="tsl-block-text">He revisado su caso de rodilla personalmente y tengo conclusiones que le devolverán la esperanza. Lo que siente no es irreversible; he identificado el punto exacto donde su cuerpo está bloqueado. Es la clave que nadie le había mencionado hasta hoy y que cambia todo lo que pensaba sobre su dolor.</p>
         <p className="tsl-block-text">Hola, soy Elena Romero, especialista en biomecánica y creadora de Movimiento Sin Dolor. He dedicado mi carrera a descifrar por qué el cuerpo se "apaga". Tras analizar sus respuestas sobre esa rigidez y dolor al dar cada paso, tengo una buena noticia: su rodilla no está simplemente "gastada", está bloqueada.</p>
-        <img src="/elenaromero.webp" alt="Elena Romero" loading="lazy" style={{display:'block', width:'180px', borderRadius:'50%', border:'4px solid #0066CC', margin:'20px auto'}} />
+        <img src="/elenaromero.webp" alt="Elena Romero" width="360" height="399" loading="lazy" style={{display:'block', width:'180px', height:'auto', borderRadius:'50%', border:'4px solid #0066CC', margin:'20px auto'}} />
         <p className="tsl-block-text">Usted probablemente siente ese dolor al subir o bajar escaleras, o la sensación de que su rodilla "falla" o le impide caminar con normalidad. Muchos le dirán que es "artrosis" o "desgaste de la edad", pero mi diagnóstico es otro: es una disfunción mecánica. Sus articulaciones están sufriendo por una compensación acumulada, no por una lesión definitiva.</p>
       </section>
 
@@ -405,14 +405,14 @@ function RodillaPage() {
         <p className="tsl-block-text">No necesita infiltraciones que solo enmascaran el dolor; necesita devolverle a su articulación el espacio y la estabilidad que ha perdido.</p>
         <p className="tsl-block-text">Sé que ha evitado el ejercicio por miedo a "forzar" la rodilla. El sistema tradicional trata el síntoma; yo ataco la causa.</p>
         <p className="tsl-block-text">Mi método se basa en la reeducación biomecánica. No le pediré que corra, ni que salte, ni que haga movimientos bruscos. Es una rutina innegociable de solo <strong>7 minutos diarios</strong> de "ajuste articular".</p>
-        <img src="/rodilla-articulacion.webp" alt="Articulación recuperando su fluidez y espacio natural" loading="lazy" style={{width:'100%', borderRadius:'12px', margin:'24px 0'}} />
+        <img src="/rodilla-articulacion.webp" alt="Articulación recuperando su fluidez y espacio natural" width="459" height="327" loading="lazy" style={{width:'100%', height:'auto', borderRadius:'12px', margin:'24px 0'}} />
         <p className="tsl-block-text">Imagínelo como un engranaje oxidado: el movimiento suave y constante recupera la lubricación natural. Desde su silla, sin complicaciones y usando solo su peso corporal, usted desbloquea la rodilla y recupera la firmeza. Es ciencia aplicada, no magia.</p>
       </section>
 
       {/* Bloco 3 */}
       <section className="tsl-block">
         <h2 className="tsl-block-title" style={{fontSize:'18px'}}>Por eso creé el programa Movimiento sin Dolor: una rutina de estiramientos de 7 minutos que cualquier persona puede realizar.</h2>
-        <img src="/app-preview.webp" alt="Así es Movimiento Sin Dolor por dentro" loading="lazy" style={{width:'100%', borderRadius:'12px', margin:'24px 0'}} />
+        <img src="/app-preview.webp" alt="Así es Movimiento Sin Dolor por dentro" width="800" height="450" loading="lazy" style={{width:'100%', height:'auto', borderRadius:'12px', margin:'24px 0'}} />
         <p className="tsl-block-text">Este programa es una aplicación que puede utilizarse fácilmente tanto en el teléfono móvil como en el ordenador portátil, de forma sencilla e intuitiva, y ya ha ayudado a más de 2.000 personas a mejorar su calidad de vida mediante sencillos ejercicios de estiramiento.</p>
         <p className="tsl-block-text">¿Teme que mover la rodilla le cause más daño o cree que el programa no es para usted porque le cuesta incluso levantarse? Ese es un error común. La inmovilidad es su peor enemiga: si no moviliza, el tejido se vuelve rígido y la compresión aumenta.</p>
         <p className="tsl-block-text">Mi programa está diseñado precisamente para personas que conviven con dolor articular severo. Nuestra aplicación es intuitiva, clara y segura. No necesita dominar la tecnología ni ser un atleta; el protocolo se adapta a su nivel actual, movilizando la rodilla sin impacto.</p>
@@ -463,10 +463,10 @@ function CaderasPage() {
       {/* Bloco 1 — Diagnóstico */}
       <section className="tsl-block">
         <TSLAudioPlayer />
-        <img src="/caderas-comparativo.webp" alt="Comparativo cadera" loading="lazy" style={{width:'100%', borderRadius:'12px', margin:'24px 0'}} />
+        <img src="/caderas-comparativo.webp" alt="Comparativo cadera" width="800" height="450" loading="lazy" style={{width:'100%', height:'auto', borderRadius:'12px', margin:'24px 0'}} />
         <p className="tsl-block-text">He revisado su caso de cadera personalmente y tengo conclusiones que le devolverán la esperanza. Lo que siente no es irreversible; he identificado el punto exacto donde su cuerpo está bloqueado. Es la clave que nadie le había mencionado hasta hoy y que cambia todo lo que pensaba sobre su dolor.</p>
         <p className="tsl-block-text">Hola, soy Elena Romero, especialista en biomecánica y creadora de Movimiento Sin Dolor. He dedicado mi carrera a descifrar por qué el cuerpo se "apaga". Tras analizar sus respuestas sobre esa rigidez y el dolor en la cadera al caminar o al levantarse, tengo una buena noticia: su articulación no está simplemente "desgastada", está bloqueada por una compensación mecánica acumulada.</p>
-        <img src="/elenaromero.webp" alt="Elena Romero" loading="lazy" style={{display:'block', width:'180px', borderRadius:'50%', border:'4px solid #0066CC', margin:'20px auto'}} />
+        <img src="/elenaromero.webp" alt="Elena Romero" width="360" height="399" loading="lazy" style={{display:'block', width:'180px', height:'auto', borderRadius:'50%', border:'4px solid #0066CC', margin:'20px auto'}} />
         <p className="tsl-block-text">Usted probablemente siente ese dolor profundo al intentar cruzar las piernas, o esa sensación de que la cadera "se traba" al levantarse de la silla o al salir del coche. Muchos le dirán que es "artrosis" o "desgaste irreversible de la edad", pero mi diagnóstico es otro: es una compresión articular. Su cadera está sufriendo por una cadena de compensaciones que su cuerpo ha acumulado durante años, no por una lesión definitiva.</p>
       </section>
 
@@ -476,14 +476,14 @@ function CaderasPage() {
         <p className="tsl-block-text">No necesita infiltraciones que solo alivian temporalmente ni cirugías de alto riesgo; necesita devolverle a su articulación el espacio y la movilidad que ha perdido.</p>
         <p className="tsl-block-text">Sé que ha evitado moverse por miedo a "dañar más" la cadera. El sistema tradicional trata el síntoma; yo ataco la causa.</p>
         <p className="tsl-block-text">Mi método se basa en la reeducación biomecánica. No le pediré que corra, ni que haga sentadillas, ni que soporte impactos. Es una rutina innegociable de solo <strong>7 minutos diarios</strong> de "ajuste articular".</p>
-        <img src="/caderas-articulacion.webp" alt="Articulación de cadera recuperando movilidad" loading="lazy" style={{width:'100%', borderRadius:'12px', margin:'24px 0'}} />
+        <img src="/caderas-articulacion.webp" alt="Articulación de cadera recuperando movilidad" width="465" height="385" loading="lazy" style={{width:'100%', height:'auto', borderRadius:'12px', margin:'24px 0'}} />
         <p className="tsl-block-text">Imagínelo como un engranaje oxidado: el movimiento suave y constante recupera el espacio perdido y la lubricación natural. Desde su silla, sin complicaciones y usando solo su peso corporal, usted desbloquea la cadera y recupera la autonomía. Es ciencia aplicada, no magia.</p>
       </section>
 
       {/* Bloco 3 — App e objeção */}
       <section className="tsl-block">
         <h2 className="tsl-block-title" style={{fontSize:'18px'}}>Por eso creé el programa Movimiento sin Dolor: una rutina de estiramientos de 7 minutos que cualquier persona puede realizar.</h2>
-        <img src="/app-preview.webp" alt="Así es Movimiento Sin Dolor por dentro" loading="lazy" style={{width:'100%', borderRadius:'12px', margin:'24px 0'}} />
+        <img src="/app-preview.webp" alt="Así es Movimiento Sin Dolor por dentro" width="800" height="450" loading="lazy" style={{width:'100%', height:'auto', borderRadius:'12px', margin:'24px 0'}} />
         <p className="tsl-block-text">Este programa es una aplicación que puede utilizarse fácilmente tanto en el teléfono móvil como en el ordenador portátil, de forma sencilla e intuitiva, y ya ha ayudado a más de 2.000 personas a mejorar su calidad de vida mediante sencillos ejercicios de estiramiento.</p>
         <p className="tsl-block-text">¿Teme que moverse le cause más daño o cree que el programa no es para usted porque le cuesta hasta ponerse los zapatos? Ese es un error común. La inmovilidad es su peor enemiga: si no moviliza, el tejido se endurece y la compresión aumenta.</p>
         <p className="tsl-block-text">Mi programa está diseñado precisamente para personas que conviven con dolor de cadera severo. Nuestra aplicación es intuitiva, clara y segura. No necesita dominar la tecnología ni ser un atleta; el protocolo se adapta a su nivel actual, movilizando la cadera de forma progresiva y sin impacto.</p>

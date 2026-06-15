@@ -405,13 +405,21 @@ function ProgressBar({ step, total }) {
 }
 
 // ── Option button ─────────────────────────────────────────────────────────────
+const PAIN_DIMENSIONS = {
+  '/rodilla.webp': { w: 280, h: 243 },
+  '/lumbar.webp': { w: 280, h: 247 },
+  '/cuello.webp': { w: 280, h: 249 },
+  '/caderas.webp': { w: 280, h: 297 },
+}
+
 function OptionBtn({ label, selected, onClick, variant, img }) {
+  const dim = img ? PAIN_DIMENSIONS[img] : null
   return (
     <button
       className={`option-btn${selected ? ' option-btn--selected' : ''}${variant ? ` option-btn--${variant}` : ''}${img ? ' option-btn--img' : ''}`}
       onClick={onClick}
     >
-      {img && <img src={img} alt="" className="option-btn-img" aria-hidden="true" />}
+      {img && <img src={img} alt="" className="option-btn-img" aria-hidden="true" width={dim?.w} height={dim?.h} loading="lazy" />}
       <span className="option-radio" aria-hidden="true">
         {selected ? (
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -673,7 +681,7 @@ export default function App() {
           {screen === 'loading2' && (
             <div className="screen loading-screen loading-screen--audio">
               <div className="expert-profile">
-                <img src="/elena-romero.webp" alt="Elena Romero" className="expert-avatar" />
+                <img src="/elena-romero.webp" alt="Elena Romero" className="expert-avatar" width="128" height="128" loading="lazy" />
                 <div className="expert-info">
                   <p className="expert-name">Elena Romero</p>
                   <p className="expert-bio">Especialista en biomecánica y creadora del Método Movimiento Sin Dolor, con más de 7 años de experiencia en el sector.</p>
@@ -701,7 +709,7 @@ export default function App() {
           {screen === 'elena2' && (
             <div className="screen loading-screen loading-screen--audio">
               <div className="expert-profile">
-                <img src="/elena-romero.webp" alt="Elena Romero" className="expert-avatar" />
+                <img src="/elena-romero.webp" alt="Elena Romero" className="expert-avatar" width="128" height="128" loading="lazy" />
                 <div className="expert-info">
                   <p className="expert-name">Elena Romero</p>
                   <p className="expert-bio">Especialista en biomecánica y creadora del Método Movimiento Sin Dolor, con más de 7 años de experiencia en el sector.</p>
@@ -797,6 +805,8 @@ export default function App() {
                 src={`/cred-${n}.webp`}
                 alt={`Credencial ${n}`}
                 className="footer-cred-img"
+                height="96"
+                loading="lazy"
               />
             ))}
           </div>
